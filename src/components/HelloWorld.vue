@@ -2,14 +2,19 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>{{ User }}</h2>
+    <RandomChartComponent></RandomChartComponent>
   </div>
 </template>
 
 <script lang="ts">
     import { Component, Prop, Vue } from 'vue-property-decorator';
     import gql from 'graphql-tag';
+    import RandomChartComponent from '@/components/RandomChart.component.vue';
 
     @Component({
+        components: {
+            RandomChartComponent
+        },
         apollo: {
             User: gql`query {User(where: {name: {_eq: "finni"}}) {
                 name
@@ -19,7 +24,7 @@
     export default class HelloWorld extends Vue {
         @Prop() private msg!: string;
 
-        User: any = {};
+        private User: any = {};
 
         public async created() {
             const response = await this.$apollo.query({

@@ -7,11 +7,11 @@ Vue.config.productionTip = false;
 Vue.use(VueApollo);
 
 const apolloProvider = new VueApollo({
-  defaultClient: apolloClient
+    defaultClient: apolloClient
 });
 
 
 new Vue({
-  apolloProvider,
-  render: (h) => h(App)
+    apolloProvider,
+    render: (h) => h(App)
 }).$mount('#app');
