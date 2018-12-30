@@ -1,0 +1,9 @@
+subscription UserSubscription {
+    User {
+        id
+        online_ping
+        last_seen
+        created_at
+        name
+    }
+}

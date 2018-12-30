@@ -1,0 +1,9 @@
+mutation AddUser($userName: String!) {
+    insert_User(objects: { name: $userName }) {
+        affected_rows
+        returning {
+            id
+            name
+        }
+    }
+}

@@ -1,0 +1,8 @@
+mutation RemoveUser($id: uuid!) {
+    delete_User(where: { id: { _eq: $id } }) {
+        affected_rows
+        returning {
+            id
+        }
+    }
+}

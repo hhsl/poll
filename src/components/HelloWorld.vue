@@ -1,47 +1,25 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>{{ User }}</h2>
+    <UserList></UserList>
     <RandomChartComponent></RandomChartComponent>
   </div>
 </template>
 
 <script lang="ts">
-    import { Component, Prop, Vue } from 'vue-property-decorator';
-    import gql from 'graphql-tag';
-    import RandomChartComponent from '@/components/RandomChart.component.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import RandomChartComponent from '@/components/RandomChart.component.vue';
+import UserList from '@/components/UserList.component.vue';
 
-    @Component({
-        components: {
-            RandomChartComponent
-        },
-        apollo: {
-            User: gql`query {User(where: {name: {_eq: "finni"}}) {
-                name
-            }}`
-        }
-    })
-    export default class HelloWorld extends Vue {
-        @Prop() private msg!: string;
-
-        private User: any = {};
-
-        public async created() {
-            const response = await this.$apollo.query({
-                query: gql`
-                    query {
-                        User {
-                            id
-                            online_ping
-                            last_seen
-                            created_at
-                            name
-                        }
-                    }`
-            });
-            console.log(response.data);
-        }
+@Component({
+    components: {
+        RandomChartComponent,
+        UserList
     }
+})
+export default class HelloWorld extends Vue {
+    @Prop() private msg!: string;
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
