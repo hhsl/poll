@@ -4,7 +4,7 @@
     <input v-model="newUserName" placeholder="new UserName" />
     <button @click="addUser(newUserName)">add new user</button> {{newUserName}}
     <ul>
-        <li v-for="user in users.User" :key="user.id">
+        <li v-for="user in User" :key="user.id">
             {{user.name}}
             <button @click="deleteUser(user.id)">delete</button>
         </li>
@@ -28,33 +28,25 @@ interface User {
     name: string;
 }
 
-interface Users {
-    User: User[];
-}
-
 @Component({})
 export default class UserList extends Vue {
     private newUserName: string = '';
     private status: string = '';
-
-    public users: Users = {
-        User: []
-    };
+    private User: User[] = [];
 
     public async mounted() {
-        return await this.$apollo.addSmartQuery('users', {
+        return await this.$apollo.addSmartQuery('User', {
             query: USERS,
             fetchPolicy: 'cache-and-network',
-            update: (data) => {
-                console.log('update', data);
-                return data;
-            },
             subscribeToMore: {
                 document: USERS_SUBSCRIPTION,
-                // updateQuery: (prevResult, { subscriptionData }) => {
-                //     console.log('updatequery', prevResult.User, subscriptionData.data.User);
-                //     return {User: [...prevResult.User, subscriptionData.data.User]};
-                // }
+                updateQuery: (prevResult, { subscriptionData }) => {
+                    return {
+                        User: [
+                            ...subscriptionData.data.User
+                        ]
+                    };
+                }
             }
         });
     }
