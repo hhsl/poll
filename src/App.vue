@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <router-view></router-view>
     <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
@@ -10,7 +11,7 @@ import HelloWorld from './components/HelloWorld.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    HelloWorld
   },
 })
 export default class App extends Vue {}

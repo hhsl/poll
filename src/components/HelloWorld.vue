@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <UserList></UserList>
     <RandomChartComponent></RandomChartComponent>
   </div>
 </template>
@@ -9,12 +8,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import RandomChartComponent from '@/components/RandomChart.component.vue';
-import UserList from '@/components/UserList.component.vue';
 
 @Component({
     components: {
-        RandomChartComponent,
-        UserList
+        RandomChartComponent
     }
 })
 export default class HelloWorld extends Vue {
