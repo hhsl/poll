@@ -17,7 +17,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class AppHome extends Vue {
 
     get count() {
-        return this.$store.state.count;
+        return this.$store.state.version;
     }
 }
 </script>
