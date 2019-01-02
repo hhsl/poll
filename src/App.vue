@@ -1,8 +1,14 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+    <div id="app">
+        <router-link to="/">
+            home
+        </router-link>
+        <router-link to="/admin">
+            admin
+        </router-link>
+        <router-view></router-view>
+        <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
+    </div>
 </template>
 
 <script lang="ts">

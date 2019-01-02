@@ -1,22 +1,14 @@
 import Vue from 'vue';
 import App from './App.vue';
-import VueApollo from 'vue-apollo';
-import { apolloClient } from '@/ApolloClient';
-import { router } from '@/Router';
-import VueRouter from 'vue-router';
+import router from '@/router';
+import store from '@/store';
+import apolloProvider from '@/apollo';
 
 Vue.config.productionTip = false;
 
-Vue.use(VueApollo);
-Vue.use(VueRouter);
-
-const apolloProvider = new VueApollo({
-    defaultClient: apolloClient
-});
-
-
 new Vue({
-    apolloProvider,
+    store,
     router,
+    apolloProvider,
     render: (h) => h(App)
 }).$mount('#app');

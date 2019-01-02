@@ -1,9 +1,11 @@
+import Vue from 'vue';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { WebSocketLink } from 'apollo-link-ws';
 import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
+import VueApollo from 'vue-apollo';
 
 const headers = {
     'X-Hasura-Access-Key': process.env.VUE_APP_BACKEND_ACCESS_KEY
@@ -40,7 +42,13 @@ const link = split(
 const cache = new InMemoryCache();
 
 // Create the apollo client
-export const apolloClient = new ApolloClient({
+const apolloClient = new ApolloClient({
     link,
     cache
+});
+
+Vue.use(VueApollo);
+
+export default new VueApollo({
+    defaultClient: apolloClient
 });
