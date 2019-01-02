@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import UserList from '@/components/UserList.component.vue';
-import Home from '@/components/Home.vue';
+import AppAdmin from '@/components/AppAdmin.vue';
+import AppHome from '@/components/AppHome.vue';
 
 const routes = [
-    { path: '/admin', component: UserList },
-    { path: '/', component: Home }
+    { path: '/admin', component: AppAdmin },
+    { path: '/', component: AppHome }
 ];
 
 Vue.use(VueRouter);

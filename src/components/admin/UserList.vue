@@ -19,14 +19,7 @@ import USERS from '@/graphql/Users.gql';
 import USERS_SUBSCRIPTION from '@/graphql/UsersSubscription.gql';
 import USER_ADD from '@/graphql/UserAdd.gql';
 import USER_REMOVE from '@/graphql/UserRemove.gql';
-
-interface User {
-    id: string;
-    online_ping: boolean;
-    last_seen: Date;
-    created_at: Date;
-    name: string;
-}
+import { User } from '@/components/admin/types';
 
 @Component({})
 export default class UserList extends Vue {
@@ -42,9 +35,7 @@ export default class UserList extends Vue {
                 document: USERS_SUBSCRIPTION,
                 updateQuery: (prevResult, { subscriptionData }) => {
                     return {
-                        User: [
-                            ...subscriptionData.data.User
-                        ]
+                        User: [...subscriptionData.data.User]
                     };
                 }
             }
