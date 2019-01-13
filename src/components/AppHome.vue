@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-             Hi welcome to the new poll app
+            Hi welcome to the new poll app
         </h1>
         <h2>
             yes its awesome!
@@ -11,10 +11,10 @@
             <input v-model="newUserName" placeholder="new UserName" />
             <button @click="onCreateUser(newUserName)">login</button>
         </div>
-        <div v-else>
-            user is logged in: {{ isLoggedIn }}
-        </div>
-        <p>
+        <template v-else>
+            <NewPoll></NewPoll>
+        </template>
+        <p v-if="status" class="status">
             {{ status }}
         </p>
     </div>
@@ -27,10 +27,15 @@ import { UserState } from '@/store/modules/user/types';
 import UserService from '@/services/user.service';
 import { User } from '@/components/admin/types';
 import { LOCAL_STORAGE_USERID } from '@/store/modules/user/mutations';
+import NewPoll from '@/components/poll/NewPoll.vue';
 
 const namespace: string = 'user';
 
-@Component({})
+@Component({
+    components: {
+        NewPoll
+    }
+})
 export default class AppHome extends Vue {
     @State('user') private userState!: UserState;
     @Action('login', { namespace }) private loginAction!: any;

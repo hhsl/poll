@@ -7,13 +7,13 @@ interface InsertedUser {
     name: string;
 }
 
-interface Insertion {
+interface InsertUser {
     affected_rows: AffectedRows;
     returning: InsertedUser[];
 }
 
 export interface InsertUserQuery {
-    insert_User: Insertion;
+    insert_User: InsertUser;
 }
 
 export interface GetUserQuery {

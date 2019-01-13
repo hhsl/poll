@@ -1,0 +1,5 @@
+mutation PollAdd($title: String!, $id: uuid!) {
+  insert_Poll(objects: {title: $title, created_by: $id}) {
+    affected_rows
+  }
+}

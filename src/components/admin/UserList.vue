@@ -7,7 +7,9 @@
             <button @click="onRemoveUser(user.id)">delete</button>
         </li>
     </ul>
-    {{ status }}
+    <p v-if="status" class="status">
+        {{ status }}
+    </p>
   </div>
 </template>
 
