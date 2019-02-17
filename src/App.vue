@@ -3,30 +3,68 @@
         <router-link to="/">
             home
         </router-link>
-        <router-link to="/admin">
+        <router-link v-if="User" to="/admin">
             admin
         </router-link>
-        <router-link v-if="isLoggedIn" to="/new-poll">
+        <router-link v-if="User" to="/new-poll">
             new poll
         </router-link>
 
         <router-view></router-view>
-        <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/> -->
+
+
+        <div v-if="$apollo.loading">Loading...</div>
+        <div v-else>
+            <div v-if="!User">
+                <CreateUser></CreateUser>
+            </div>
+            <div v-else>
+                User {{this.User.name}}
+            </div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
-import { UserState } from '@/store/modules/user/types';
-import { State } from 'vuex-class';
+import USER_GET from '@/graphql/UserGet.gql';
+import { User } from '@/components/admin/types';
+import { UserId } from '@/services/user.types';
+import CreateUser, { LOCAL_STORAGE_USERID } from '@/components/user/CreateUser.vue';
 
-@Component({})
+@Component({
+    components: {
+        CreateUser
+    }
+})
 export default class App extends Vue {
-    @State('user') private userState!: UserState;
+    private User: User[] | null = null;
 
-    get isLoggedIn() {
-        return this.userState.isLoggedIn;
+    public mounted() {
+        // this.$apollo.queries.User.s tart();
+        console.log(this);
+        console.log(this.$apollo);
+        // if (!this.user) {
+        //     this.$router.replace({ name: 'home' });
+        // }
+
+    }
+
+    get apollo() {
+        return {
+            User() {
+                return {
+                    query: USER_GET,
+                    variables: {
+                        id: localStorage.getItem(LOCAL_STORAGE_USERID)
+                    },
+                    update(data: any) {
+                        return data.User[0];
+                    },
+                    fetchPolicy: 'network-only'
+                };
+            }
+        };
     }
 }
 </script>

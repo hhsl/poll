@@ -1,10 +1,12 @@
 import { User } from '@/components/admin/types';
 
-type AffectedRows = number;
+export type AffectedRows = number;
+export type UserId = string;
+export type UserName = string;
 
 interface InsertedUser {
-    id: string;
-    name: string;
+    id: UserId;
+    name: UserName;
 }
 
 interface InsertUser {

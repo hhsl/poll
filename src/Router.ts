@@ -1,14 +1,23 @@
-import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 import AppAdmin from '@/components/AppAdmin.vue';
 import AppHome from '@/components/AppHome.vue';
+import AppPoll from '@/components/AppPoll.vue';
 
 const routes = [
-    { path: '/admin', component: AppAdmin },
-    { path: '/', component: AppHome }
+    {
+        path: '/admin',
+        component: AppAdmin
+    },
+    {
+        path: '/',
+        component: AppHome,
+        name: 'home'
+    },
+    { path: '/poll/:id', component: AppPoll, props: true }
 ];
 
-Vue.use(VueRouter);
+
 
 export default new VueRouter({
     mode: 'history',

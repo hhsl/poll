@@ -1,9 +1,9 @@
 query UserGet($id: uuid!) {
-  User(where: {id: {_eq: $id}}) {
-    created_at
-    id
-    last_seen
-    name
-    online_ping
-  }
+    User(where: {id: {_eq: $id}}) {
+        created_at
+        id
+        last_seen
+        name
+        online_ping
+    }
 }

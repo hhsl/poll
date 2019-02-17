@@ -1,13 +1,17 @@
 import Vue from 'vue';
-import App from './App.vue';
+import App from '@/App.vue';
 import router from '@/router';
-import store from '@/store';
 import apolloProvider from '@/apollo';
+import './class-component-hooks';
+import VueApollo from 'vue-apollo';
+import VueRouter from 'vue-router';
+
 
 Vue.config.productionTip = false;
+Vue.use(VueRouter);
+Vue.use(VueApollo);
 
 new Vue({
-    store,
     router,
     apolloProvider,
     render: (h) => h(App)

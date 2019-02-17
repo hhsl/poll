@@ -2,8 +2,11 @@ mutation UserAdd($username: String!) {
     insert_User(objects: { name: $username }) {
         affected_rows
         returning {
+            created_at
             id
+            last_seen
             name
+            online_ping
         }
     }
 }
