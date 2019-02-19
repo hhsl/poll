@@ -43,7 +43,8 @@ const cache = new InMemoryCache();
 // Create the apollo client
 const apolloClient = new ApolloClient({
     link,
-    cache
+    cache,
+    connectToDevTools: true
 });
 
 export default new VueApollo({

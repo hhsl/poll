@@ -10,18 +10,8 @@
             new poll
         </router-link>
 
-        <router-view></router-view>
-
-
         <div v-if="$apollo.loading">Loading...</div>
-        <div v-else>
-            <div v-if="!User">
-                <CreateUser></CreateUser>
-            </div>
-            <div v-else>
-                User {{this.User.name}}
-            </div>
-        </div>
+        <router-view v-else></router-view>
     </div>
 </template>
 
@@ -38,16 +28,12 @@ import CreateUser, { LOCAL_STORAGE_USERID } from '@/components/user/CreateUser.v
     }
 })
 export default class App extends Vue {
-    private User: User[] | null = null;
+    private User!: User;
 
     public mounted() {
-        // this.$apollo.queries.User.s tart();
-        console.log(this);
-        console.log(this.$apollo);
-        // if (!this.user) {
-        //     this.$router.replace({ name: 'home' });
-        // }
-
+        if (!this.User) {
+            this.$router.replace({ name: 'home' });
+        }
     }
 
     get apollo() {
@@ -60,8 +46,7 @@ export default class App extends Vue {
                     },
                     update(data: any) {
                         return data.User[0];
-                    },
-                    fetchPolicy: 'network-only'
+                    }
                 };
             }
         };

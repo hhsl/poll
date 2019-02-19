@@ -3,13 +3,20 @@
         <h1>
             Hi welcome to the new poll app
         </h1>
-        <h2>
-            yes its awesome!
-        </h2>
-        <div v-if="user">
-            {{user.name}} please create new poll
-            <!-- <NewPoll></NewPoll> -->
+
+        <div v-if="User">
+            <h2>
+                yes its awesome!
+            </h2>
+            {{User.name}} please create new poll
         </div>
+        <div v-else>
+            <h2>
+                first you need to create a new user
+            </h2>
+            <CreateUser></CreateUser>
+        </div>
+
         <p v-if="status" class="status">
             {{ status }}
         </p>
@@ -18,22 +25,33 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { UserId } from '@/services/user.types';
 import { User } from '@/components/admin/types';
 import USER_GET from '@/graphql/UserGet.gql';
+import CreateUser, { LOCAL_STORAGE_USERID } from '@/components/user/CreateUser.vue';
 
 @Component({
     components: {
-        // NewPoll
+        CreateUser
     }
 })
 export default class AppHome extends Vue {
-    private userId!: UserId | null;
-    @Prop() private user!: User;
+    private User: User | null = null;
     private status: string = '';
 
-    constructor() {
-        super();
+    get apollo() {
+        return {
+            User() {
+                return {
+                    query: USER_GET,
+                    variables: {
+                        id: localStorage.getItem(LOCAL_STORAGE_USERID)
+                    },
+                    update({ User }: any) {
+                        return User[0];
+                    }
+                };
+            }
+        };
     }
 }
 </script>

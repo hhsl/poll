@@ -27,11 +27,10 @@ export default class CreateUser extends Vue {
             variables: {
                 username: this.username
             },
-            update: (store, data) => {
-                const newUser: User = data.data.insert_User.returning[0];
-                store.writeQuery({ query: USER_GET, data: { User: newUser }});
+            update: (store, { data: { insert_User } }) => {
+                const newUser: User = insert_User.returning[0];
                 localStorage.setItem(LOCAL_STORAGE_USERID, newUser.id);
-                this.$router.go(0);
+                location.reload();
             },
         });
 
