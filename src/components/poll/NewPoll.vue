@@ -1,74 +1,110 @@
 <template>
     <div>
-        <p>
-            new poll headline please
-        </p>
-        <input v-model="newPollName">
-        <button @click="onNewPoll()">go!</button>
-        <p v-if="status" class="status">
-            {{status}}
-        </p>
-        <ul>
-            <li v-for="poll in Poll" :key="poll.id">
-                <router-link :to="'/poll/' + poll.id">
-                    {{poll.title}}
-                </router-link>
-            </li>
-        </ul>
+        <h2>
+           {{user.name}}, please create a new poll
+        </h2>
+
+        <div class="c-input-group">
+            <input v-model="newPollTitle" placeholder="title" />
+            <button @click="onNewPoll()">go</button>
+        </div>
+
+        <ApolloQuery
+            :query="queryPollsGet"
+            :variables="{ id: user.id }"
+            >
+            <ApolloSubscribeToMore
+                :document="queryPollSub"
+                :variables="{ id: user.id }"
+                :updateQuery="onPollSub"
+                />
+            <template slot-scope="{ result: { loading, error, data } }">
+                <div v-if="loading" class="loading apollo">Loading...</div>
+                <div v-else-if="error" class="error apollo">An error occured</div>
+                <div v-else-if="data" class="result apollo">
+                    <h3>
+                        or visit your other polls
+                    </h3>
+                    <ul>
+                        <li v-for="poll in data.Poll" :key="poll.id">
+                            <router-link :to="'/poll/' + poll.id">
+                                {{poll.title}}
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>
+                <div v-else class="no-result apollo">No result :(</div>
+            </template>
+        </ApolloQuery>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import PollService from '@/services/poll.service';
-import POLL_GET from '@/graphql/PollGet.gql';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import POLL_ADD from '@/graphql/PollAdd.gql';
+import POLLS_GET from '@/graphql/PollsGet.gql';
 import POLL_SUBSCRIPTION from '@/graphql/PollSubscription.gql';
+import { User } from '@/components/admin/types';
+import {SubscriptionResult} from '@/components/types';
 import { Poll } from '@/services/poll.types';
 
 @Component({})
 export default class NewPoll extends Vue {
-    private status: string = '';
-    private newPollName: string = '';
-    private pollService!: PollService;
-    private Poll: Poll[] = [];
+    @Prop() private user!: User;
+    private queryPollsGet = POLLS_GET;
+    private queryPollSub = POLL_SUBSCRIPTION;
+    private newPollTitle: string = '';
 
-    public mounted() {
-        this.pollService = new PollService(this.$apollo);
-        this.addPollSubscription();
-    }
-
-    private addPollSubscription() {
-        // this.$apollo.addSmartQuery('Poll', {
-        //     query: POLL_GET,
-        //     variables() {
-        //         return { id };
-        //     },
-        //     fetchPolicy: 'cache-and-network',
-        //     subscribeToMore: {
-        //         document: POLL_SUBSCRIPTION,
-        //         variables() {
-        //             return { id };
-        //         },
-        //         updateQuery: (prevResult, { subscriptionData }) => {
-        //             return {
-        //                 Poll: [...subscriptionData.data.Poll]
-        //             };
-        //         }
-        //     }
-        // });
+    private onPollSub(prevResult: any, result: SubscriptionResult) {
+        return {
+            Poll: [...result.subscriptionData.data.Poll]
+        };
     }
 
     private async onNewPoll() {
-        // if (!this.userState.id) {
-        //     return;
-        // }
-
-        // const response = await this.pollService.create(this.newPollName, this.userState.id);
-
-        // if (response.data.insert_Poll.affected_rows !== 0) {
-        //     this.status = 'New Poll Added';
-        // }
+        return await this.$apollo.mutate({
+            mutation: POLL_ADD,
+            variables: {
+                title: this.newPollTitle,
+                id: this.user.id
+            }
+        });
     }
 }
 </script>
+
+<style lang="scss">
+.c-input-group {
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+}
+
+input,
+button {
+    padding: 12px;
+    margin: 0;
+    border: 0;
+    box-shadow: 0px 4px 10px -4px rgba(0,0,0, 0.25);
+}
+
+input {
+    width: 100%;
+    max-width: 550px;
+    font-size: 22px;
+    border-radius: 12px;
+    border: 1px solid lightblue;
+    margin-right: 12px;
+}
+
+button {
+    background: blue;
+    font-size: 16px;
+    color: aquamarine;
+    font-weight: bold;
+    border-radius: 12px;
+    width: 100px;
+    cursor: pointer;
+}
+</style>
 

@@ -1,4 +1,4 @@
-query PollGet($id: uuid!) {
+query PollsGet($id: uuid!) {
   Poll(where: {CreatedByUser: {id: {_eq: $id}}}) {
     title
     created_at
