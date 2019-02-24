@@ -1,0 +1,5 @@
+mutation PollVoteAdd($created_by: uuid!, $created_for: uuid!) {
+  insert_PollVote(objects:{created_by: $created_by, created_for: $created_for}) {
+    affected_rows
+  }
+}

@@ -14,7 +14,7 @@ const routes = [
         component: AppHome,
         name: 'home'
     },
-    { path: '/poll/:id', component: AppPoll, props: true }
+    { path: '/poll/:pollId', component: AppPoll, props: true }
 ];
 
 

@@ -13,7 +13,7 @@
         </h1>
 
         <div v-if="$apollo.loading">Loading...</div>
-        <router-view v-else></router-view>
+        <router-view class="wrapper" v-else></router-view>
 
         <Footer></Footer>
     </div>
@@ -89,5 +89,13 @@ body {
     bottom: 1em;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.wrapper {
+    max-width: 900px;
+    background: white;
+    margin: 0 auto;
+    height: 100%;
+    padding: 12px;
 }
 </style>

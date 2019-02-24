@@ -1,6 +1,11 @@
 <template>
     <footer>
-        made with fun, <a href="http://hasura.io">Hasura</a> and <a href="http://vuejs.org/">vuejs</a>
+        <div>
+            made with fun, <a href="http://hasura.io">Hasura</a> and <a href="http://vuejs.org/">vuejs</a>
+        </div>
+        <div>
+            alpha release . fcknsbm
+        </div>
     </footer>
 </template>
 
@@ -15,11 +20,11 @@ export default class Footer extends Vue {
 
 <style lang="scss">
 footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 50px;
+    padding-bottom: 60px;
+    margin-top: 24px;
+    font-size: 12px;
     background: lightblue;
     border-top: 1px solid gray;
 }
