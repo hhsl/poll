@@ -37,9 +37,9 @@ export default class App extends Vue {
     private user!: User;
 
     public mounted() {
-        if (!this.user) {
-            this.$router.replace({ name: 'home' });
-        }
+        // if (!this.user) {
+        //     this.$router.replace({ name: 'home' });
+        // }
     }
 
     get apollo() {

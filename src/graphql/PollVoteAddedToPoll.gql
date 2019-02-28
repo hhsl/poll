@@ -1,0 +1,11 @@
+subscription PollVoteAddedToPoll($pollId: uuid!) {
+    PollVote(
+        where: { VoteForOption: { OptionForPoll: { id: { _eq: $pollId } } } }
+    ) {
+        created_at
+        VoteForOption {
+            id,
+            text
+        }
+    }
+}

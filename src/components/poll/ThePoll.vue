@@ -11,7 +11,9 @@
             </li>
         </ul>
 
-        <BarChartComponent :chart-data="chartData" :chart-options="chartOptions"></BarChartComponent>
+        <NewPollOption></NewPollOption>
+
+        <BarChartComponent :chart-data="getChartData()" :options="getChartOptions()"></BarChartComponent>
     </div>
 </template>
 
@@ -20,29 +22,42 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Poll, UUID, PollOption } from '@/components/poll/types';
 import { ChartOptions, ChartData } from '@/components/charts/types';
 import BarChartComponent from '@/components/charts/BarChart.component';
+import NewPollOption from '@/components/poll/NewPollOption.vue';
 import { LOCAL_STORAGE_USERID } from '@/components/user/CreateUser.vue';
 import POLL_VOTE_ADD from '@/graphql/PollVoteAdd.gql';
 
 @Component({
     components: {
+        NewPollOption,
         BarChartComponent
     }
 })
 export default class ThePoll extends Vue {
     @Prop() public poll!: Poll;
 
-    public chartData: ChartData;
-    public chartOptions: ChartOptions;
+    public getChartOptions(): ChartOptions {
+        return {
+            responsive: false,
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1
+                        }
+                    }
+                ]
+            }
+        };
+    }
 
-    constructor() {
-        super();
-
-        this.chartData = {
+    public getChartData(): ChartData {
+        return {
             labels: this.poll.options.map((option) => option.text),
-            datasets: this.poll.options.map((option) => {
-                    return {
-                        label: option.text,
-                        data: [option.count],
+            datasets:
+                [
+                    {
+                        label: 'Votes',
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(255, 159, 64, 0.2)',
@@ -61,24 +76,10 @@ export default class ThePoll extends Vue {
                             'rgb(153, 102, 255)',
                             'rgb(201, 203, 207)'
                         ],
-                    };
-                })
-        };
-
-        this.chartOptions = {
-            responsive: false,
-            scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true,
-                            stepSize: 1
-                        }
+                        data: this.poll.options.map((option) => option.count)
                     }
                 ]
-            }
         };
-
     }
 
     public async onVote(optionId: UUID) {

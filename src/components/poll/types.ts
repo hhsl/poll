@@ -1,5 +1,4 @@
 export type UUID = string;
-
 export interface PollOption {
     text: string;
     id: UUID;
@@ -13,14 +12,24 @@ export interface Poll {
     options: PollOption[];
 }
 
-export interface PollBackend {
+export interface HasuraPollVote {
+    PollVote: Array<{
+        VoteForOption: {
+            id: UUID;
+            text: string;
+        };
+        created_at: string;
+    }>;
+}
+
+export interface HasuraPoll {
     title: string;
     created_at: string;
     id: UUID;
-    polloptionssBypollId: PollOptionBackend[];
+    polloptionssBypollId: HasuraPollOption[];
 }
 
-export interface PollOptionBackend {
+export interface HasuraPollOption {
     text: string;
     id: UUID;
     pollvotesBycreatedFor_aggregate: {
@@ -28,4 +37,15 @@ export interface PollOptionBackend {
             count: number;
         }
     };
+}
+
+export interface HasuraQuery<T> {
+    [index: string]: T[];
+}
+
+export interface HasuraSubscription<T> {
+    subscriptionData: {
+        data: T;
+    };
+    variables: any;
 }
