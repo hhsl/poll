@@ -51,6 +51,9 @@ export default class App extends Vue {
                 },
                 update(data: any) {
                     return data.User[0];
+                },
+                skip() {
+                    return !localStorage.getItem(LOCAL_STORAGE_USERID);
                 }
             }
         };

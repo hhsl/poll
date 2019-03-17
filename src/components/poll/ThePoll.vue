@@ -1,8 +1,5 @@
 <template>
     <div class="bar-chart">
-        <h2>
-            {{ poll.title }}
-        </h2>
 
         <ul>
             <li v-for="option in poll.options" :key="option.id">
@@ -10,8 +7,6 @@
                 <button @click="onVote(option.id)">vote</button>
             </li>
         </ul>
-
-        <NewPollOption></NewPollOption>
 
         <BarChartComponent :chart-data="getChartData()" :options="getChartOptions()"></BarChartComponent>
     </div>
@@ -22,13 +17,11 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Poll, UUID, PollOption } from '@/components/poll/types';
 import { ChartOptions, ChartData } from '@/components/charts/types';
 import BarChartComponent from '@/components/charts/BarChart.component';
-import NewPollOption from '@/components/poll/NewPollOption.vue';
 import { LOCAL_STORAGE_USERID } from '@/components/user/CreateUser.vue';
 import POLL_VOTE_ADD from '@/graphql/PollVoteAdd.gql';
 
 @Component({
     components: {
-        NewPollOption,
         BarChartComponent
     }
 })

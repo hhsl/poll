@@ -1,0 +1,11 @@
+subscription PollOptionAddSubscription($pollId: uuid!) {
+    PollOptions(where: { poll_id: { _eq: $pollId } }) {
+        id
+        text
+        pollvotesBycreatedFor_aggregate {
+            aggregate {
+                count
+            }
+        }
+    }
+}

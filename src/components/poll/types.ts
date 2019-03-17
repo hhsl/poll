@@ -1,4 +1,5 @@
 export type UUID = string;
+
 export interface PollOption {
     text: string;
     id: UUID;
@@ -37,6 +38,10 @@ export interface HasuraPollOption {
             count: number;
         }
     };
+}
+
+export interface HasuraPollOptions {
+    PollOptions: HasuraPollOption[];
 }
 
 export interface HasuraQuery<T> {

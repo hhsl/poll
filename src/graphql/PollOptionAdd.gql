@@ -1,0 +1,5 @@
+mutation PollOptionAdd($poll_id: uuid!, $text: String!) {
+    insert_PollOptions(objects: { poll_id: $poll_id, text: $text }) {
+        affected_rows
+    }
+}

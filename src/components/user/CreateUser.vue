@@ -1,9 +1,7 @@
 <template>
     <div>
-        provide username:
         <input v-model="username" placeholder="your username" />
         <button v-on:click="createUser()">create</button>
-
         {{ error }}
     </div>
 </template>

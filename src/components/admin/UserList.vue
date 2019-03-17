@@ -4,6 +4,7 @@
     <ul>
         <li v-for="user in User" :key="user.id">
             {{user.name}}
+            <button @click="onLogin(user.id)">login</button>
             <button @click="onRemoveUser(user.id)">delete</button>
         </li>
     </ul>
@@ -45,7 +46,12 @@ export default class UserList extends Vue {
         });
     }
 
-    public async onRemoveUser(id: string) {
+    private onLogin(id: string) {
+        localStorage.setItem('userid', id);
+        location.reload();
+    }
+
+    private async onRemoveUser(id: string) {
         const response = await this.userService.remove(id);
 
         if (response.data.delete_User.affected_rows === 0) {
